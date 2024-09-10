@@ -16,6 +16,10 @@ const userSchema = zod.object({
     password: zod.string().min(6).max(18)
 });
 
+const loginUserSchema = zod.object({
+    email: zod.string().email().max(45),
+    password: zod.string().min(6).max(18)
+});
 
 export const registerUser = async (req, res)=>{
     const body = req.body;
@@ -74,7 +78,8 @@ export const registerUser = async (req, res)=>{
         });
 
         res.status(201).json({
-            message: "User created successfully",
+            success: true,
+            message: "User registered successfully",
             userId: newUser._id,
             token: token
         });
@@ -85,6 +90,59 @@ export const registerUser = async (req, res)=>{
     }
 }
 
-export const loginUser = (req, res)=>{
 
+export const loginUser = async (req, res)=>{
+    const { email, password } = req.body;
+    
+    try {
+        const { success, error } = loginUserSchema.safeParse(req.body);
+
+        if (!success) {
+            return res.status(400).json({
+                message: "Incorrect input's",
+                details: error.issues
+            });
+        }
+
+        const user = await Users.findOne({
+            email: email
+        });
+
+        if(!user){
+            return res.status(401).json({ error: 'User Not Found' });
+        }
+
+        const { _id, username } = user;
+
+        const result = await bcrypt.compare(password, user.hash);
+
+        if(!result){
+            return res.status(401).json({ error: 'Invalid email or password' });
+        }   
+
+        else{
+
+            const token = jwt.sign({ 
+                userId: _id, 
+                username: username, 
+                email: email
+            }, JWT_SECRET, { 
+                expiresIn: '8h'
+            });
+            
+            return res.status(200).json({
+                token, 
+                user: { 
+                    id: _id, 
+                    username: username, 
+                    email: email 
+                }
+            });
+        }
+
+
+    } catch (error) {
+        console.error(`error in login user controller ${error}`);
+        res.status(500).send({ message: 'Something went wrong try again or Internal Server Error' });
+    }
 }
