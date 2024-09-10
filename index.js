@@ -1,6 +1,7 @@
 import express from "express";
 import "dotenv/config";
 
+import connectionDB from "./src/configs/connectionDB.js";
 import { rootRouter } from "./src/routes/index.js";
 
 const app = express();
@@ -21,6 +22,8 @@ app.use((err, req, res, next) => {
     console.error(err);
     res.status(500).send({ message: "Internal Server Error" });
 });
+
+connectionDB();
 
 app.listen(port, (err)=>{
     if(!err){
