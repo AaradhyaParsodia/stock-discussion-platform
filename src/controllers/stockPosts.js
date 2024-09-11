@@ -1,8 +1,8 @@
 import zod from "zod";
-import StockPosts from "../models/stockPosts";
+import StockPosts from "../models/stockPosts.js";
 
 const createStockPostSchema = zod.object({
-    stockSymbol: zod.string().nonEmpty("Stock symbol is required"),
+    stockSymbol: zod.string().min(1, "Stock symbol is required"),
     title: zod.string().min(3, "Title must be at least 3 characters").max(45, "Title must not exceed 45 characters"),
     description: zod.string().min(5, "Description must be at least 5 characters").max(500, "Description must not exceed 500 characters"),
     tags: zod.array(zod.string().optional()).optional()
@@ -85,7 +85,7 @@ export const deleteStockPost = async (req, res)=>{
             });
         }
 
-        res.status(204).json({ 
+        res.status(200).json({ 
             success: true, 
             message: 'Post deleted successfully' 
         });
