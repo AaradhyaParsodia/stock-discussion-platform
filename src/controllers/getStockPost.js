@@ -2,7 +2,7 @@ import StockPosts from "../models/stockPosts.js";
 
 export const getAllStockPosts = async (req, res)=>{
     
-    const { stockSymbol, tags, sortBy } = req.query;
+    const { stockSymbol, tags, sortBy, page = 1, limit = 10 } = req.query;
 
     try {
 
@@ -22,9 +22,24 @@ export const getAllStockPosts = async (req, res)=>{
             query = query.sort({ likesCount: -1 });
         }
 
+        const offset = (page - 1) * limit;
+        const totalPosts = await StockPosts.countDocuments({ isDeleted: false });
+
+        query.skip(offset).limit(limit);
+        
         const posts = await query.select('_id stockSymbol title description likesCount createdAt');
 
-        res.status(200).json(posts);
+        const totalPages = Math.ceil(totalPosts / limit);
+
+        res.status(200).json({
+            posts,
+            metadata: {
+                totalCount: totalPosts,
+                currentPage: page,
+                totalPages,
+                limit
+            }
+        });
 
     } catch (error) {
         console.error(`error in get all stock posts controller ${error}`);
