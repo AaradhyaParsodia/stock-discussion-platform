@@ -46,6 +46,12 @@ Just follow the below commands after cloning this repo into your local environme
     ```
 This command will install all the dependencies.
 
+4. Create .env
+    ```sh
+    touch .env && cp .env.example .env
+    ```
+    Please make sure to put every details and key upfront in the .env file.
+
 ## Usage
 
 ```sh
