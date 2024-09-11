@@ -21,7 +21,7 @@ const loginUserSchema = zod.object({
     password: zod.string().min(6).max(18)
 });
 
-export const registerUser = async (req, res)=>{
+export const registerUser = async (req, res) => {
     const body = req.body;
     const { username, email, password } = req.body;
 
@@ -34,7 +34,7 @@ export const registerUser = async (req, res)=>{
                 errors: error.issues
             });
         }
-        
+
         console.log('okay');
         const isExistingUser = await Users.findOne({
             $or: [
@@ -42,7 +42,7 @@ export const registerUser = async (req, res)=>{
                 { email: email }
             ]
         });
-        
+
         if (isExistingUser) {
             return res.status(409).json({
                 message: "Username or email already taken"
@@ -54,7 +54,7 @@ export const registerUser = async (req, res)=>{
         // }, JWT_SECRET);
 
         const salt = await bcrypt.genSalt(10);
-        
+
         // using hashing for password storage 
         const hash = await bcrypt.hash(password, salt);
 
@@ -69,11 +69,11 @@ export const registerUser = async (req, res)=>{
             hash: hash
         });
 
-        const token = jwt.sign({ 
-            userId: newUser._id, 
-            username: username, 
+        const token = jwt.sign({
+            userId: newUser._id,
+            username: username,
             email: email
-        }, JWT_SECRET, { 
+        }, JWT_SECRET, {
             expiresIn: '8h'
         });
 
@@ -90,10 +90,9 @@ export const registerUser = async (req, res)=>{
     }
 }
 
-
-export const loginUser = async (req, res)=>{
+export const loginUser = async (req, res) => {
     const { email, password } = req.body;
-    
+
     try {
         const { success, error } = loginUserSchema.safeParse(req.body);
 
@@ -108,7 +107,7 @@ export const loginUser = async (req, res)=>{
             email: email
         });
 
-        if(!user){
+        if (!user) {
             return res.status(401).json({ error: 'User Not Found' });
         }
 
@@ -116,26 +115,26 @@ export const loginUser = async (req, res)=>{
 
         const result = await bcrypt.compare(password, user.hash);
 
-        if(!result){
+        if (!result) {
             return res.status(401).json({ error: 'Invalid email or password' });
-        }   
+        }
 
-        else{
+        else {
 
-            const token = jwt.sign({ 
-                userId: _id, 
-                username: username, 
+            const token = jwt.sign({
+                userId: _id,
+                username: username,
                 email: email
-            }, JWT_SECRET, { 
+            }, JWT_SECRET, {
                 expiresIn: '8h'
             });
-            
+
             return res.status(200).json({
-                token, 
-                user: { 
-                    id: _id, 
-                    username: username, 
-                    email: email 
+                token,
+                user: {
+                    id: _id,
+                    username: username,
+                    email: email
                 }
             });
         }

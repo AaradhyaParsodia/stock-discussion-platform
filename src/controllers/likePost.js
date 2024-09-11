@@ -60,7 +60,7 @@ export const like = async (req, res)=>{
 }
 
 export const unlike = async (req, res)=>{
-    const { postId } = req.params;
+    const { postId } = req;
     const userId = req._id;
 
     try {
@@ -69,6 +69,8 @@ export const unlike = async (req, res)=>{
             _id: postId,
             isDeleted: false
         });
+
+        // console.log(postId);
 
         if (!post) {
             

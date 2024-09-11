@@ -66,6 +66,7 @@ export const deleteStockPost = async (req, res)=>{
             return res.status(404).json({ message: 'Post not found' });
         }
 
+        // console.log(post.userId, " ", _id);
         if(post.userId.toString() !== _id){
             return res.status(403).json({
                 success: false,

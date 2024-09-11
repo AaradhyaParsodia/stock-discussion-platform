@@ -63,7 +63,8 @@ export const addComment = async (req, res)=>{
 
 export const deleteComment = async (req, res)=>{
     
-    const { postId, commentId } = req.params;
+    const { commentId } = req.params;
+    const { postId } = req;
     const userId = req._id;
 
     try {
