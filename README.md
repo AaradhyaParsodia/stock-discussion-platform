@@ -1,4 +1,4 @@
-# Document Similarity Template Matcher
+# Stock Discussion Platform
 Looking for a solid solution for a powerful backend application of public engagement in which a user can post stocks-market or financial-related posts, then this is the right spot to stop <br>
 Yes, a secure and scalable Node.js (javascript) backend that does have solid documentation by leveraging the robust mechanism of Swagger API documents.
 
