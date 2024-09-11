@@ -27,14 +27,19 @@ const stockPostSchema = new mongoose.Schema({
     },
     stockSymbolURLs: {
         type: [String],
-        match: /^https?:\/\/.+\.(jpg|jpeg|png|gif)$/
+        validate: {
+            validator: (value) => {
+                return value.every(url => /^https?:\/\/.+?\.(jpg|jpeg|png|gif)$/.test(url));
+            },
+            message: 'Invalid URL format for stock symbol images'
+        }
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: Users,
         required: true
     },
-    likeCount: {
+    likesCount: {
         type: Number,
         default: 0
     },
@@ -49,7 +54,11 @@ const stockPostSchema = new mongoose.Schema({
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: Comments
-    }]
+    }],
+    isDeleted: {
+        type: Boolean,
+        default: false
+    }
 }, {
     timestamps: true
 });
