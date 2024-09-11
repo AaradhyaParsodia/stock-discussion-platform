@@ -40,21 +40,21 @@ const options = {
                 User: {
                     type: 'object',
                     properties: {
-                        firstName: { type: 'string', default: 'jane' },
-                        lastName: { type: 'string', default: 'pane' },
-                        username: { type: 'string', default: 'jane_pane' },
-                        email: { type: 'string', format: 'email', default: 'jane@example.com' },
-                        bio: { type: 'string', default: 'From Earth' },
-                        profilePicture: { type: 'string', format: 'url', default: 'https://bucket.aws.com/' },
-                        password: { type: 'string', default: 'abc123' }
+                        firstName: { type: 'string' },
+                        lastName: { type: 'string' },
+                        username: { type: 'string' },
+                        email: { type: 'string', format: 'email' },
+                        bio: { type: 'string' },
+                        profilePicture: { type: 'string', format: 'url' },
+                        password: { type: 'string'}
                     },
                     required: ['email', 'password', 'username']
                 },
                 LoginUser: {
                     type: 'object',
                     properties: {
-                        email: { type: 'string', format: 'email', default: 'jane@example.com' },
-                        password: { type: 'string', default: 'abc123', required: true }
+                        email: { type: 'string', format: 'email' },
+                        password: { type: 'string', required: true }
                     },
                     required: ['email', 'password']
                 },
@@ -68,22 +68,22 @@ const options = {
                 StockPost: {
                     type: 'object',
                     properties: {
-                        stockSymbol: { type: 'string', default: 'AAPL' },
-                        title: { type: 'string', default: 'Apple Stock Discussion' },
-                        description: { type: 'string', default: 'Discussion about Apple stock performance' },
-                        tags: { type: 'array', items: { type: 'string' }, default: ['tech', 'stocks'] },
-                        likesCount: { type: 'integer', default: 0 },
-                        createdAt: { type: 'string', format: 'date-time', default: '2023-10-01T12:00:00Z' }
+                        stockSymbol: { type: 'string'},
+                        title: { type: 'string'},
+                        description: { type: 'string' },
+                        tags: { type: 'array', items: { type: 'string' } },
+                        likesCount: { type: 'integer',  },
+                        createdAt: { type: 'string', format: 'date-time'}
                     },
                     required: ['title', 'stockSymbol', 'description']
                 },
                 Comment: {
                     type: 'object',
                     properties: {
-                        commentId: { type: 'string', default: '1234567890' },
-                        userId: { type: 'string', default: '1234567890' },
-                        comment: { type: 'string', default: 'Great discussion!' },
-                        createdAt: { type: 'string', format: 'date-time', default: '2023-10-01T12:00:00Z' }
+                        commentId: { type: 'string' },
+                        userId: { type: 'string'},
+                        comment: { type: 'string' },
+                        createdAt: { type: 'string', format: 'date-time' }
                     },
                     required: ['comment', 'userId']
                 },
@@ -93,20 +93,17 @@ const options = {
                         stockSymbol:{
                             type: 'string',
                             description: 'Stock symbol of the post',
-                            default: 'AAPL',
                             minLength: 1
                         },
                         title: {
                             type: 'string',
                             description: 'Title of the post',
-                            default: 'Title Heading',
                             minLength: 3,
                             maxLength: 45
                         },
                         description: {
                             type: 'string',
                             description: 'Description of the post',
-                            default: 'Description of the post',
                             minLength: 5,
                             maxLength: 500
                         },
@@ -114,7 +111,6 @@ const options = {
                             type: 'array',
                             items:{
                                 type: 'string',
-                                default: ['Tech','Stock'],
                                 description: 'Tags for the post (optional)'
                             }
                         },

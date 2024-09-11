@@ -9,7 +9,7 @@ likePostRouter.use(authMiddleware);
 // ===========================================================================================
 /**
  * @swagger
- * /api/posts/{postId}/like:
+ * /posts/{postId}/like:
  *   post:
  *     summary: Like a stock post
  *     tags: [Likes]
@@ -89,7 +89,7 @@ likePostRouter.post("/", likePost.like);
 // ===========================================================================================
 /**
  * @swagger
- * /api/posts/{postId}/like:
+ * /posts/{postId}/like:
  *   delete:
  *     summary: Unlike a stock post
  *     tags: [Likes]

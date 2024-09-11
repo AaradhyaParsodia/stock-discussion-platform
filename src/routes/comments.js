@@ -9,7 +9,7 @@ commentRouter.use(authMiddleware);
 //================================================================================== 
 /**
  * @swagger
- * /api/posts/{postId}/comments:
+ * /posts/{postId}/comments:
  *   post:
  *     summary: Add a comment to a stock post
  *     tags: [Comments]
@@ -31,8 +31,10 @@ commentRouter.use(authMiddleware);
  *             properties:
  *               comment:
  *                 type: string
- *                 default: Good One
  *                 description: Text of the comment
+ *           example: {
+ *             "comment": "Good One"
+ *           }
  *     responses:
  *       201:
  *         description: Comment added successfully
@@ -106,7 +108,7 @@ commentRouter.post("/", comments.addComment);
 // =====================================================================================
 /**
  * @swagger
- * /api/posts/{postId}/comments/{commentId}:
+ * /posts/{postId}/comments/{commentId}:
  *   delete:
  *     summary: Delete a comment from a stock post
  *     tags: [Comments]

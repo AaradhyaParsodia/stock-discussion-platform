@@ -7,7 +7,7 @@ export const stockPostRouter = Router();
 // ============================================================================================
 /**
  * @swagger
- * /api/posts:
+ * /posts:
  *   get:
  *     summary: Get all stock posts with filtering and sorting options
  *     tags: [StockPosts]
@@ -42,6 +42,27 @@ export const stockPostRouter = Router();
  *           type: integer
  *           default: 10
  *         description: Number of posts per page for pagination (optional)
+ *         example: {
+ *            "posts": [
+ *              {
+ *                "stockSymbol": "AAPL",
+ *                "title": "Apple Stock Discussion",
+ *                "description": "Discussion about Apple stock performance",
+ *                "tags": [
+ *                  "tech",
+ *                  "stocks"
+ *                ],
+ *                "likesCount": 0,
+ *                "createdAt": "2023-10-01T12:00:00Z"
+ *              }
+ *            ],
+ *            "metadata": {
+ *              "totalCount": 1,
+ *              "currentPage": 1,
+ *              "totalPages": 1,
+ *              "limit": 10
+ *            }
+ *         }
  *     responses:
  *       200:
  *         description: List of stock posts with pagination metadata
@@ -90,7 +111,7 @@ stockPostRouter.get("/", getStockPost.getAllStockPosts);
 // ============================================================================================
 /**
  * @swagger
- * /api/posts/{postId}:
+ * /posts/{postId}:
  *   get:
  *     summary: Get a single stock post with comments
  *     tags: [StockPosts]
@@ -103,6 +124,27 @@ stockPostRouter.get("/", getStockPost.getAllStockPosts);
  *         schema:
  *           type: string
  *         description: ID of the stock post to retrieve
+ *         example: {
+ *             "post": {
+ *               "stockSymbol": "AAPL",
+ *               "title": "Apple Stock Discussion",
+ *               "description": "Discussion about Apple stock performance",
+ *               "tags": [
+ *                 "tech",
+ *                 "stocks"
+ *               ],
+ *               "likesCount": 0,
+ *               "createdAt": "2023-10-01T12:00:00Z"
+ *             },
+ *             "comments": [
+ *               {
+ *                 "commentId": "1234567890",
+ *                 "userId": "1234567890",
+ *                 "comment": "Great discussion!",
+ *                 "createdAt": "2023-10-01T12:00:00Z"
+ *               }
+ *             ]
+ *         }
  *     responses:
  *       200:
  *         description: Stock post details with comments
@@ -145,7 +187,7 @@ stockPostRouter.use(authMiddleware);
 // ============================================================================================
 /**
  * @swagger
- * /api/posts:
+ * /posts:
  *   post:
  *     summary: Create a new stock post
  *     tags: [StockPosts]
@@ -157,6 +199,17 @@ stockPostRouter.use(authMiddleware);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/createPost'
+ *           example: {
+ *             "stockSymbol": "AAPL",
+ *             "title": "Title Heading",
+ *             "description": "Description of the post",
+ *             "tags": [
+ *               [
+ *                 "Tech",
+ *                 "Stock"
+ *               ]
+ *             ]
+ *           }
  *     responses:
  *       201:
  *         description: Stock post created successfully
@@ -209,7 +262,7 @@ stockPostRouter.post("/", stockPosts.createStockPost);
 
 /**
  * @swagger
- * /api/posts/{postId}:
+ * /posts/{postId}:
  *   delete:
  *     summary: Delete a stock post
  *     tags: [StockPosts]

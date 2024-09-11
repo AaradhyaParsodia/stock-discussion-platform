@@ -19,6 +19,15 @@ export const userRouter = Router();
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/User'
+ *           example: {
+ *                firstName: jabe, 
+ *                lastName: pane,
+ *                username: 'jane_pane_',
+ *                email: 'jane@example.com',
+ *                bio: 'From Earth',
+ *                profilePicture: 'https://bucket.aws.com/',
+ *                password: 'abc123'
+ *              }
  *     responses:
  *       201:
  *         description: User registered successfully
@@ -82,6 +91,10 @@ userRouter.post("/auth/register", auth.registerUser);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/LoginUser'
+ *           example: {
+ *              email: abc@email.com,
+ *              passsword: acf1213
+ *           }
  *     responses:
  *       200:
  *         description: User logged in successfully
@@ -129,7 +142,7 @@ userRouter.post("/auth/login", auth.loginUser);
 // ===============================================================================================================================================
 /**
  * @swagger
- * /v1/api/user/profile/{userId}:
+ * /user/profile/{userId}:
  *   get:
  *     summary: Get User Profile
  *     description: Retrieves the profile of a user by their ID
@@ -144,6 +157,12 @@ userRouter.post("/auth/login", auth.loginUser);
  *           type: string
  *         required: true
  *         description: User ID
+ *         example: {
+ *             id: ad2345678sdsn55db,
+ *             username: jane_pane,
+ *             bio: From Earth,
+ *             profilePicture: https://bucket.aws.com/2323fnj
+ *         }
  *     responses:
  *       200:
  *         description: User profile retrieved successfully
@@ -225,6 +244,11 @@ userRouter.get("/profile/:userId", authMiddleware ,userProfile.getUserProfile);
  *                 type: string
  *                 format: url
  *                 description: New profile picture URL (optional)
+ *           example: {
+ *              username: jane_pane,
+ *              bio: From Earth,
+ *              profilePicture: https://bucket.aws.com/
+ *            }
  *     responses:
  *       200:
  *         description: Profile updated successfully
